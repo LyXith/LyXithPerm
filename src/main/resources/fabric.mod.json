@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "lyxithperm",
+  "version": "${version}",
+  "name": "LyXithPerm",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/lyxithperm/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.lyxith.lyxithperm.LyxithPerm"
+    ]
+  },
+  "mixins": [
+    "lyxithperm.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}",
+    "lyxithconfig": ">=1.0"
+  }
+}
