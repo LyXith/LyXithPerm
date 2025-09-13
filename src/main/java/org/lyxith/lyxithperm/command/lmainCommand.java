@@ -45,7 +45,7 @@ public class lmainCommand {
                 ServerCommandSource executor = context.getSource();
                 boolean hasPerm = getPerm(Objects.requireNonNull(executor.getPlayer()), "lyxithperm.help", Boolean.class,false);
                 if (hasPerm) {
-                    context.getSource().sendFeedback(()-> Text.literal(String.valueOf(configNode.getNode("helpInfo").get().getString())),false);
+                    context.getSource().sendFeedback(()-> Text.literal(configNode.getNode("helpInfo").get().getString().get()),false);
                     return 1;
                 } else {
                     context.getSource().sendFeedback(()-> Text.literal("You don't have permission"), false);
