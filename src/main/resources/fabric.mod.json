@@ -12,8 +12,17 @@
   "entrypoints": {
     "main": [
       "org.lyxith.lyxithperm.LyxithPerm"
+    ],
+    "preLaunch": [
+      "org.lyxith.lyxithperm.api.LyXithPermEntryPoint"
+    ],
+    "lyxithconfig-api": [
+      "org.lyxith.lyxithperm.api.LyXithPermAPIImpl"
     ]
   },
+  "provides": [
+    "lyxithperm-api"
+  ],
   "mixins": [
     "lyxithperm.mixins.json"
   ],

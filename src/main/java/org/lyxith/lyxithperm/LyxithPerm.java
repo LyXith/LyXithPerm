@@ -9,9 +9,12 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
 import org.lyxith.lyxithconfig.api.LyXithConfigAPI;
+import org.lyxith.lyxithconfig.api.LyXithConfigNode;
 import org.lyxith.lyxithconfig.api.LyXithConfigNodeImpl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.lyxith.lyxithperm.command.lmainCommand.*;
 
@@ -72,8 +75,37 @@ public class LyxithPerm implements ModInitializer {
                 .flatMap(node -> node.getValue(type))
                 .orElse(defaultValue);
     }
+    private static List<Object> getGroupList(String group) {
+        LyXithConfigNode groupNode = configNode.getNode("groups."+group).get();
+        int groupLength = groupNode.length();
+        List<Object> list = new ArrayList<>();
+        for (int x = 0; x < groupLength; x++) {
+            list.add(groupNode.getElement(x));
+        }
+        return list;
+    }
+
+    public static boolean getGroupPerm(String group,String perm) {
+        return getGroupList(group).contains(perm);
+    }
+
+    public static boolean isInGroup(PlayerEntity player, String group) {
+        String playerName = player.getName().getString();
+        LyXithConfigNode groupNode = configNode.getNode("players."+playerName+".group").get();
+        boolean inGroup = false;
+        for (int x = 0; x < groupNode.length(); x++) {
+            if (Objects.equals(groupNode.getElement(x).toString(), group)) inGroup = true;
+        }
+        return inGroup;
+    }
+
     private void commandRegister(CommandDispatcher<ServerCommandSource> dispatcher, LiteralCommandNode<ServerCommandSource> command) {
         command.addChild(help);
         dispatcher.getRoot().addChild(command);
+    }
+
+    public static void setPerm(PlayerEntity player, String perm, Object object) {
+        String playerName = player.getName().getString();
+        configNode.getNode("players." + playerName + ".perms." + perm).get().setValue(object);
     }
 }

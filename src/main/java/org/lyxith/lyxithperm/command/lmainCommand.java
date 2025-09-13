@@ -1,5 +1,7 @@
 package org.lyxith.lyxithperm.command;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.server.command.CommandManager;
@@ -52,4 +54,10 @@ public class lmainCommand {
                     return 0;
                 }
             }).build();
+    public static LiteralCommandNode<ServerCommandSource> setPerm = LiteralArgumentBuilder.<ServerCommandSource>literal("set")
+            .then(CommandManager.argument("perm",StringArgumentType.string())
+                    .then(CommandManager.argument("perm",StringArgumentType.string())
+                            .executes(context -> {
+                                return 1;
+                            }))).build();
 }
