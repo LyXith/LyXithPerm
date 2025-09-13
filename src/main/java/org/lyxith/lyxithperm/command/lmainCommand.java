@@ -27,6 +27,19 @@ public class lmainCommand {
                     return 0;
                 }
             }).build();
+    public static LiteralCommandNode<ServerCommandSource> mainCommandAlias = CommandManager.literal("lp")
+            .executes(context -> {
+                configAPI.loadConfig(modId, configName);
+                Optional<Integer> permLevel = configAPI.getValue(modId, configName, "permLevel", Integer.class);
+                boolean hasPerm = context.getSource().hasPermissionLevel(permLevel.orElse(2));
+                if (hasPerm) {
+                    context.getSource().sendFeedback(() -> Text.literal("Called /lp."), false);
+                    return 1;
+                } else {
+                    context.getSource().sendFeedback(()-> Text.literal("You don't have permission"), false);
+                    return 0;
+                }
+            }).build();
     public static LiteralCommandNode<ServerCommandSource> help = LiteralArgumentBuilder.<ServerCommandSource>literal("help")
             .executes(context -> {
                 ServerCommandSource executor = context.getSource();

@@ -1,17 +1,19 @@
 package org.lyxith.lyxithperm;
 
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.command.ServerCommandSource;
 import org.lyxith.lyxithconfig.api.LyXithConfigAPI;
 import org.lyxith.lyxithconfig.api.LyXithConfigNodeImpl;
 
 import java.util.List;
 
-import static org.lyxith.lyxithperm.command.lmainCommand.help;
-import static org.lyxith.lyxithperm.command.lmainCommand.mainCommand;
+import static org.lyxith.lyxithperm.command.lmainCommand.*;
 
 public class LyxithPerm implements ModInitializer {
     public static final LyXithConfigNodeImpl configNode = new LyXithConfigNodeImpl();
@@ -31,8 +33,8 @@ public class LyxithPerm implements ModInitializer {
         }
         initConfig();
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            mainCommand.addChild(help);
-            dispatcher.getRoot().addChild(mainCommand);
+            commandRegister(dispatcher,mainCommand);
+            commandRegister(dispatcher,mainCommandAlias);
         });
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
 
@@ -71,5 +73,9 @@ public class LyxithPerm implements ModInitializer {
         return configNode.getNode("players." + playerName + ".perms." + perm)
                 .flatMap(node -> node.getValue(type))
                 .orElse(defaultValue);
+    }
+    private void commandRegister(CommandDispatcher<ServerCommandSource> dispatcher, LiteralCommandNode<ServerCommandSource> command) {
+        command.addChild(help);
+        dispatcher.getRoot().addChild(command);
     }
 }
