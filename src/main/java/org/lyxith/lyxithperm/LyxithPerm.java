@@ -58,11 +58,9 @@ public class LyxithPerm implements ModInitializer {
         }
         configAPI.loadConfig(modId, configName);
         configNode.addNode("permLevel", false);
-        configNode.addNode("groups.default", false);
         configNode.addNode("players", false);
-        configNode.addNode("helpInfo", false);
-        configNode.getNode("helpInfo").get().set(defaultHelpInfo);
-        configNode.getNode("permLevel").get().setValue(0);
+        configNode.initNode("groups.default", false, 0);
+        configNode.initNode("helpInfo", false, defaultHelpInfo);
         configAPI.saveConfig(modId, configName, configNode);
     }
     public static LyXithConfigAPI getConfigAPI() {
