@@ -16,7 +16,7 @@
     "preLaunch": [
       "org.lyxith.lyxithperm.api.LyXithPermEntryPoint"
     ],
-    "lyxithconfig-api": [
+    "lyxithperm-api": [
       "org.lyxith.lyxithperm.api.LyXithPermAPIImpl"
     ]
   },

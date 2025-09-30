@@ -19,7 +19,7 @@ import java.util.Objects;
 import static org.lyxith.lyxithperm.command.lmainCommand.*;
 
 public class LyxithPerm implements ModInitializer {
-    public static final LyXithConfigNodeImpl configNode = new LyXithConfigNodeImpl();
+    public static LyXithConfigNodeImpl configNode = new LyXithConfigNodeImpl();
     private static final String defaultHelpInfo = "test help information";
     public static final String modId = "LyXithPerm";
     public static String configName = "Permission";
@@ -60,6 +60,7 @@ public class LyxithPerm implements ModInitializer {
             configAPI.createModConfig(modId, configName);
         }
         configAPI.loadConfig(modId, configName);
+        configNode = configAPI.getConfigRootNode(modId,configName).getRoot();
         configNode.addNode("permLevel", false);
         configNode.addNode("players", false);
         configNode.initNode("groups.default", false, 0);
